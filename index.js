@@ -8,8 +8,10 @@ require('dotenv').config();
 const app = express();
 
 //Configurar cors
-
 app.use(cors());
+
+//Lectura y parseo de body
+app.use(express.json());
 
 //DB
 dbConnection();
@@ -17,13 +19,9 @@ dbConnection();
 //mean_user | 4vJ5qZ4SWPwL0HIz
 
 //Rutas
-app.get( '/', (req, res) => {
+app.use( '/api/usuarios', require('./routes/usuarios'));
+app.use( '/api/login', require('./routes/auth'));
 
-    res.json({
-        ok:true,
-        msg: 'Hola mundo'
-    });
-});
 
 app.listen(3000, () => {
     console.log('Servidor corriendo en puerto '+ 3000);
