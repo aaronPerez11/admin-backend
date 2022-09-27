@@ -94,13 +94,28 @@ const renewToken = async(req, res = response) => {
     
     const uid = req.uid;
     
-    //Generar TOKEN
+    try {
+
+         //Generar TOKEN
     const token =  await generarJWT( uid );
+
+    //Obtener usuario por ID
+    const usuario = await Usuario.findById( uid );
     
-    res.json({
+    return res.json({
         ok: true,
-        token
+        token,
+        usuario
     })
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+    }
+   
 }
 
 module.exports = {
